@@ -58,3 +58,10 @@ script:
   - ctest --output-on-failure
   # Run runtests-based tests.
   - cd ../Test && ./runtests
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - export ARTIFACT=glslang-$BRANCH-$TRAVIS_OS_NAME.tar.gz
+  - tar -zcf $ARTIFACT install/
+  - export API_JSON=$(printf '{"tag_name": "v%s","target_commitish": "master","name": "v%s","body": "Release of version %s","draft": false,"prerelease": false}' $BRANCH $BRANCH $BRANCH)
+  - curl --data "$API_JSON" https://api.github.com/repos/cget/glslang/releases?access_token=$github_token
+  - curl -# -XPOST -H "Authorization:token $github_token" -H "Content-Type:application/octet-stream" --data-binary @$ARTIFACT https://uploads.github.com/repos/cget/glslang/releases/v$BRANCH/assets?name=$ARTIFACT
+
