@@ -11,3 +11,9 @@ Test/singleThread.out
 Test/vert.spv
 Test/frag.spv
 External/googletest
+
+# Clion
+*.ipr
+*.iml
+*.iws
+.idea/
