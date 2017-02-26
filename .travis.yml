@@ -66,4 +66,3 @@ script:
   - echo $API_JSON
   - curl --data "$API_JSON" https://api.github.com/repos/cget/glslang/releases?access_token=$github_token
   - curl -# -XPOST -H "Authorization:token $github_token" -H "Content-Type:application/octet-stream" --data-binary @$ARTIFACT https://uploads.github.com/repos/cget/glslang/releases/v$BRANCH/assets?name=$ARTIFACT
-
